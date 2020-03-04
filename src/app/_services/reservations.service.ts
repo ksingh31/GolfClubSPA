@@ -7,6 +7,7 @@ import { User } from '../_models/user';
 import { Observable, throwError } from 'rxjs';
 import { Reservation } from '../_models/reservation';
 import { TeeTime } from '../_models/teeTime';
+import { Approval } from '../_models/approval';
 
 @Injectable({
     providedIn: 'root'
@@ -29,12 +30,39 @@ export class ReservationsService {
         );
     }
 
-    getteeTimes(): Observable<TeeTime[]> {
-        return this.http.get<TeeTime[]>(this.gettimes + 'getTeeTimes')
+    ApproveReservation(approvalData: Approval): Observable<any> {
+      return this.http.post<any>(this.addReserveURLUrl + 'approve', approvalData)
+        .pipe(
+          catchError((err: HttpErrorResponse) => {
+            return throwError(err.message);
+          })
+      );
+    }
+
+    RemoveReservation(id: number): Observable<any> {
+      return this.http.delete<any>(this.addReserveURLUrl + 'deletereservation?id=' + id)
+        .pipe(
+          catchError((err: HttpErrorResponse) => {
+            return throwError(err.message);
+          })
+      );
+  }
+
+    getteeTimes(): Observable<any[]> {
+        return this.http.get<any[]>(this.gettimes + 'getTeeTimes')
           .pipe(
             catchError((err: HttpErrorResponse) => {
               return throwError(err.message);
             })
         );
+    }
+
+    getteeTimesById(roleId: number): Observable<any[]> {
+      return this.http.get<any[]>(this.gettimes + 'getTeeTimesById?id=' + roleId)
+        .pipe(
+          catchError((err: HttpErrorResponse) => {
+            return throwError(err.message);
+          })
+      );
     }
 }

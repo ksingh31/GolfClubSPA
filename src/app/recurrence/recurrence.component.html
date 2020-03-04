@@ -1,7 +1,7 @@
 <div class="control-section">
   <div class="col-lg-9 content-wrapper" style="width: 80%; margin: 0 auto; display: block;">
 <ejs-schedule #scheduleObj width='100%' height='400px' [selectedDate]="selectedDate" [eventSettings]="eventSettings"
-  [currentView]="currentView" [minDate]="selectedDate" (eventRendered)="oneventRendered($event)" (actionBegin)="onActionBegin($event)"
+  [currentView]="currentView" startHour='07:00' endHour='18:00' [minDate]="selectedDate" (eventRendered)="oneventRendered($event)" (actionBegin)="onActionBegin($event)"
   (popupOpen)="onPopupOpen($event)">
   <e-views>
     <e-view option="Week"></e-view>

@@ -3,9 +3,11 @@ import { HomeComponent } from './home/home.component';
 import { AuthGuard } from './_guards/auth.guard';
 import { NavComponent } from './nav/nav.component';
 import { RecurrenceComponent } from './recurrence/recurrence.component';
+import { ReservationsComponent } from './reservations/reservations.component';
 
 export const appRoutes: Routes = [
     { path: '', component: HomeComponent},
+    { path: 'reservations', component: ReservationsComponent},
     {
         path: '',
         runGuardsAndResolvers: 'always',

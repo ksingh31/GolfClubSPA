@@ -1,10 +1,14 @@
-<h1 mat-dialog-title>Row Action :: <strong>{{action}}</strong></h1>
+<h1 mat-dialog-title><strong>{{action}}</strong></h1>
 <div mat-dialog-content>
-  <mat-form-field *ngIf="action != 'Delete'; else elseTemplate">
-    <input placeholder="{{action}} Name" matInput [(ngModel)]="local_data.name">
-  </mat-form-field>
+  <div *ngIf="action != 'Delete'; else elseTemplate">
+    <mat-form-field>
+      <input placeholder="Approve" type="number" min="0" max="1" matInput [(ngModel)]="local_data.approval">
+    </mat-form-field>
+    <p style="color:red;font-size: 9px;margin-bottom:0">"0" - Pending Approval</p>
+    <p style="color:red;font-size: 9px;">"1" - Approved</p>
+  </div>
   <ng-template #elseTemplate>
-    Sure to delete <b>{{local_data.name}}</b>?
+    Sure to delete <b>{{local_data.title}}</b> reservation?
   </ng-template>
 </div>
 <div mat-dialog-actions>

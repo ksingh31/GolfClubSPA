@@ -1,30 +1,40 @@
 <div class="container text-center">
  
-  <button mat-button (click)="openDialog('Add',{})" mat-flat-button color="primary">Add Row</button>
- 
-  <table mat-table [dataSource]="dataSource" #mytable class="my-table mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" #mytable class="my-table mat-elevation-z8 table">
  
     <!--- Note that these columns can be defined in any order.
         The actual rendered columns are set as a property on the row definition" -->
  
     <!-- Id Column -->
     <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef> ID. </th>
+      <th mat-header-cell *matHeaderCellDef> ID </th>
       <td mat-cell *matCellDef="let element"> {{element.id}} </td>
     </ng-container>
  
-    <!-- Name Column -->
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef> Name </th>
-      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    <!-- subject Column -->
+    <ng-container matColumnDef="subject">
+      <th mat-header-cell *matHeaderCellDef> Title </th>
+      <td mat-cell *matCellDef="let element"> {{element.subject}} </td>
+    </ng-container>
+
+    <!-- recurringData Column -->
+    <ng-container matColumnDef="recurringData">
+      <th mat-header-cell *matHeaderCellDef> Recurring Data </th>
+      <td mat-cell *matCellDef="let element"> {{element.recurringData ? element.recurringData : 'Single Reservation'}} </td>
+    </ng-container>
+
+    <!-- approval Column -->
+    <ng-container matColumnDef="approval">
+      <th mat-header-cell *matHeaderCellDef> Approval Status </th>
+      <td mat-cell *matCellDef="let element"> {{element.approval}} </td>
     </ng-container>
  
     <!-- Action Column -->
     <ng-container matColumnDef="action">
       <th mat-header-cell *matHeaderCellDef> Action </th>
       <td mat-cell *matCellDef="let element" class="action-link"> 
-        <a (click)="openDialog('Update',element)">Edit</a> | 
-        <a (click)="openDialog('Delete',element)">Delete</a>  
+        <a *ngIf="localStorageItem() == 'Admin'" (click)="openDialog('Update',element)">Edit |</a>
+        <a (click)="openDialog('Delete',element)"> Delete</a>  
       </td>
     </ng-container>
  

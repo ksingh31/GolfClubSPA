@@ -20,3 +20,12 @@ display: none !important;
     pointer-events:none;
     opacity: 0.5
 }
+
+table.table.my-table.mat-elevation-z8 th {
+    text-align:center;
+    padding-bottom: 5px;
+}
+
+table.table.my-table.mat-elevation-z8 td {
+    padding-top: 5px;
+}

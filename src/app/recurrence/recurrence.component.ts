@@ -4,7 +4,8 @@ import { createElement, extend } from '@syncfusion/ej2-base';
 import { DropDownList } from '@syncfusion/ej2-dropdowns';
 import { ScheduleComponent, EventSettingsModel, EventRenderedArgs,
   View, DayService, WeekService, MonthService, ResizeService, ActionEventArgs, DragAndDropService,
-  PopupOpenEventArgs } from '@syncfusion/ej2-angular-schedule';
+  PopupOpenEventArgs, 
+  WorkHoursModel} from '@syncfusion/ej2-angular-schedule';
 import { ChangeEventArgs } from '@syncfusion/ej2-buttons';
 // import { ChangeEventArgs } from '@syncfusion/ej2-angular-buttons';
 import { ButtonComponent } from '@syncfusion/ej2-angular-buttons';
@@ -22,10 +23,10 @@ import { TeeTime } from '../_models/teeTime';
     styleUrls: ['./recurrence.component.css']
 })
 export class RecurrenceComponent {
-  teeTime: TeeTime[];
+  teeTime: Reservation[];
   empList: Array<{Id: Number, Subject: string, StartTime: Date, EndDate: Date,
   RecurrenceRule: string, CategoryColor: string}> = [];
-  public data = extend([], this.empList, null, true) as object[];
+  public data;
     public selectedDate: Date;
     reservationData: Reservation;
     public eventSettings: EventSettingsModel = {
@@ -44,7 +45,26 @@ export class RecurrenceComponent {
 
     constructor(private reserv: ReservationsService, public authService: AuthService, public alertify: AlertifyService) {
       this.selectedDate = new Date();
-      this.loadData();
+      //this.loadData();
+      this.reserv.getteeTimes()
+      .subscribe((teeTime: Reservation[]) => {
+          this.teeTime = teeTime;
+        for (let i = 0; i < this.teeTime.length; i++) {
+            this.empList.push(
+            {
+              Id: teeTime[i].id,
+              Subject: teeTime[i].subject,
+              StartTime: teeTime[i].startDate,
+              EndDate: teeTime[i].endDate,
+              RecurrenceRule: teeTime[i].recurringData,
+              CategoryColor: '#1aaa55'
+          });
+        }
+        this.data = extend([], this.empList, null, true) as object[];
+        console.log(this.data);
+      }, error => {
+        this.alertify.error(error);
+      });
     }
 
     ngOnInit() {
@@ -175,7 +195,7 @@ export class RecurrenceComponent {
 
         else {
           if (args.requestType === 'eventChange') {
-            console.log(eventObj);
+            console.log(args.requestType);
           }
         }
     }
@@ -202,37 +222,4 @@ export class RecurrenceComponent {
     // delete(): void {
     //   console.log('delete');
     // }
-
-    loadData() {
-        // this.reserv.getteeTimes().subscribe(
-        //   (teeTime: TeeTime[]) => {
-        //     this.teeTime = teeTime;
-        //     this.eventSettings.dataSource = this.teeTime;
-        //     console.log(this.teeTime);
-        //     console.log(recurrenceData);
-        //   }, error => {
-        //     this.alertify.error(error);
-        //   }
-        // );
-
-        this.reserv.getteeTimes().subscribe(
-          (teeTime: TeeTime[]) => {
-          for (let i = 0; i < teeTime.length; i++) {
-              this.empList.push(
-              {
-                Id: teeTime[i].id,
-                Subject: teeTime[i].subject,
-                StartTime: teeTime[i].startTime,
-                EndDate: teeTime[i].endTime,
-                RecurrenceRule: teeTime[i].recurrenceRule,
-                CategoryColor: '#1aaa55'
-            });
-          }
-          console.log(this.empList);
-
-          this.eventSettings.dataSource = this.empList;
-        }, error => {
-          this.alertify.error(error);
-        });
-      }
 }
